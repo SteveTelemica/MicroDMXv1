@@ -19,7 +19,7 @@ class DMXMini:
 
     def __init__(self, root, settings, scenesfilename):
         self.settings = settings
-
+        self.root = root
         title = "DMX Mini Controller"
         root.title(title)
 
@@ -48,7 +48,7 @@ class DMXMini:
             i += 1
         print (self.scenesdata)
         self.scenesvar = StringVar(value=self.sceneslist)
-        self.scenelistbox = Listbox(mainframe, height=10, listvariable=self.scenesvar)
+        self.scenelistbox = Listbox(mainframe, selectmode=SINGLE, height=10, listvariable=self.scenesvar)
         self.scenelistbox.grid(column=1, row=3, rowspan=4, sticky=W)
         self.scenelistbox.bind("<<ListboxSelect>>",
                                lambda e: self.sceneselection(self.scenelistbox.curselection()))
@@ -62,11 +62,17 @@ class DMXMini:
         self.messagevalue.grid(column=1, row=8, columnspan=3, sticky=W)
         self.messagetext.set("Started " + title)
 
-        ttk.Button(mainframe, text="Save", command=self.save).grid(column=2, row=2, sticky=W)
+        self.savevar = StringVar()
+        self.savevar.set("Save")
+        ttk.Button(mainframe, textvariable=self.savevar, command=self.save).grid(column=2, row=2, sticky=W)
 
         ttk.Button(mainframe, text="Up", command=self.up).grid(column=2, row=3, sticky=W)
         ttk.Button(mainframe, text="Down", command=self.down).grid(column=2, row=4, sticky=W)
-        ttk.Button(mainframe, text="Update", command=self.update).grid(column=2, row=5, sticky=W)
+        
+        self.updatevar = StringVar()
+        self.updatevar.set("Update")
+        ttk.Button(mainframe, textvariable=self.updatevar, command=self.update).grid(column=2, row=5, sticky=W)
+
         ttk.Button(mainframe, text="Delete", command=self.delete).grid(column=2, row=6, sticky=W)
 
         self.addbutton = ttk.Button(mainframe, text="Add", command=self.add)
@@ -85,6 +91,19 @@ class DMXMini:
 
         ttk.Label(mainframe, text="Fade Time").grid(column=3, row=7, sticky=W)
 
+        self.transtext = StringVar()
+        self.transvalue = ttk.Label(mainframe, textvariable = self.transtext)
+        self.transvalue.grid(column=4, row=2, sticky=W)
+        self.transtext.set("None")
+
+        self.transvar = IntVar() #or DoubleVar
+        self.transscale = ttk.Scale(mainframe, orient=VERTICAL, from_=250, to=0, length=110,
+                                    variable=self.transvar, command=self.updatetrans)
+        self.transscale.grid(column=4, row=3, rowspan=3)
+        self.transvar.set(0)
+
+        ttk.Label(mainframe, text="Trans Time").grid(column=4, row=7, sticky=W)
+
         # widgets per channel
         self.chantext = {}
         self.chanvalue = {}
@@ -96,17 +115,17 @@ class DMXMini:
         for i in self.settings.keys():
             if (isinstance(i,int)):
                 self.chantext[i] = StringVar()
-                self.chanvalue[i] = ttk.Label(mainframe, text="100%", textvariable = self.chantext[i]).grid(column=3+i, row=2, sticky=W)
+                self.chanvalue[i] = ttk.Label(mainframe, text="100%", textvariable = self.chantext[i]).grid(column=4+i, row=2, sticky=W)
                 self.chantext[i].set("0 %")
 
                 self.chanvar[i] = IntVar()
                 
                 self.chanscale[i] = ttk.Scale(mainframe, orient=VERTICAL, from_=255, to=0, length=110,
                                               variable=self.chanvar[i], command = partial( self.updatechan, i) )
-                self.chanscale[i].grid(column=3+i, row=3, rowspan=3)
+                self.chanscale[i].grid(column=4+i, row=3, rowspan=3)
                 self.chanvar[i].set(0)
                 
-                ttk.Label(mainframe, text=self.settings[i]["name"]).grid(column=3+i, row=7, sticky=W)
+                ttk.Label(mainframe, text=self.settings[i]["name"]).grid(column=4+i, row=7, sticky=W)
 
                 self.colourpicker[i] = Canvas(mainframe, width=30, height=30, background='white')
                 # save current colours in self.settings
@@ -114,7 +133,7 @@ class DMXMini:
                 self.settings[i]["s"] = 0
                 self.settings[i]["v"] = 0
                 print( self.settings[i])
-                self.colourpicker[i].grid(column=3+i, row=6)
+                self.colourpicker[i].grid(column=4+i, row=6)
                 self.colourpicker[i].bind("<Button-1>", partial( self.setcolour, i) )
 
         for child in mainframe.winfo_children(): 
@@ -152,6 +171,15 @@ class DMXMini:
     def updatespeed(self, val):
         self.messagetext.set("Change speed " + str(self.speedvar.get()) )
         self.speedtext.set(str(self.speedvar.get()/10.0) + " sec")
+        self.updatevar.set("Update *")
+
+    def updatetrans(self, val):
+        self.messagetext.set("Change transition " + str(self.transvar.get()) )
+        if (self.transvar.get() == 0):
+            self.transtext.set("None")
+        else:
+            self.transtext.set(str(self.transvar.get() ) + " sec")
+        self.updatevar.set("Update *")
 
     def updatechan(self, i, val):
         self.messagetext.set("Change chan brightness "+ str(i) + "," + str(self.chanvar[i].get()) )
@@ -163,6 +191,7 @@ class DMXMini:
             s = self.settings[i]["s"]
             v = self.chanvar[i].get()
             self.sendDMX( i, 0, h, s, v)
+        self.updatevar.set("Update *")
             
     def save(self):
         # Reorganise by scene id
@@ -174,6 +203,7 @@ class DMXMini:
         print( self.newscenes)
         WriteDMXScenes(scenesfilename, self.newscenes)
         self.messagetext.set("Saved")
+        self.savevar.set("Save")
 
     def up(self):
         if (len( self.scenelistbox.curselection() ) == 0):
@@ -190,6 +220,7 @@ class DMXMini:
         self.scenelistbox.selection_clear(pos1)
         self.scenelistbox.selection_set(pos0)
         self.scenelistbox.see(pos0)
+        self.savevar.set("Save *")
 
     def down(self):
         if (len( self.scenelistbox.curselection() ) == 0):
@@ -206,6 +237,7 @@ class DMXMini:
         self.scenelistbox.selection_clear(pos1)
         self.scenelistbox.selection_set(pos2)
         self.scenelistbox.see(pos2)
+        self.savevar.set("Save *")
 
     def delete(self):
         if (len( self.scenelistbox.curselection() ) == 0):
@@ -216,6 +248,7 @@ class DMXMini:
         self.scenesdata.pop( self.sceneslist[ self.scenelistbox.curselection()[0] ] )
         self.sceneslist.pop( self.scenelistbox.curselection()[0])
         self.scenesvar.set(self.sceneslist)
+        self.savevar.set("Save *")
 
     def update(self):
         if (len( self.scenelistbox.curselection() ) == 0):
@@ -225,6 +258,9 @@ class DMXMini:
         # Modify scenes
         self.scenesdata.pop( self.sceneslist[ self.scenelistbox.curselection()[0] ] )
         self.insertscenedata()
+        # Updated, can now be saved
+        self.updatevar.set("Update")
+        self.savevar.set("Save *")
 
     def add(self):
         self.messagetext.set("Add " + self.scene.get())
@@ -243,12 +279,14 @@ class DMXMini:
         self.scenelistbox.selection_set(i)
         self.scenelistbox.see(i)
         self.insertscenedata()
+        self.savevar.set("Save *")
 
     def insertscenedata(self):
         # Add channel colours to the scenes
         scene = {}
         scene[ "name"] = self.sceneslist[ self.scenelistbox.curselection()[0] ]
         scene[ "time"] = self.speedvar.get()
+        scene[ "trans"] = self.transvar.get()        
         sets = {}
         for i in self.settings.keys():
             if (isinstance(i,int)):
@@ -263,15 +301,25 @@ class DMXMini:
         print( self.scenesdata[ scene[ "name"] ])
 
     def sceneselection(self, i):
+        print("i", i)
         if (len( self.scenelistbox.curselection() ) == 0):
             self.messagetext.set("Scene not selected")
             return
         scenename = self.sceneslist[ self.scenelistbox.curselection()[0] ]
         self.messagetext.set("Select scene " + str(i[0]) + " " + scenename )
+        # cancel any update
+        self.updatevar.set("Update")
+
         # Scene speed
         print( self.scenesdata[ scenename])
         self.speedvar.set( self.scenesdata[ scenename]["time"] )
         self.speedtext.set(str(self.speedvar.get()/10.0) + " sec")
+        print( "Set transvar: ", self.scenesdata[ scenename]["trans"] )
+        self.transvar.set( self.scenesdata[ scenename]["trans"] )
+        if (self.transvar.get() == 0):
+            self.transtext.set("None")
+        else:
+            self.transtext.set(str(self.transvar.get()) + " sec")
         # Set up scene colours per channel
         for sc in self.scenesdata[ scenename]["sets"].keys():
             # We have channel name, need number
@@ -306,7 +354,36 @@ class DMXMini:
                     s = self.settings[i]["s"]
                     v = self.chanvar[i].get()
                     self.sendDMX( i, t, h, s, v)
-                            
+            # And schedule a transition if needed
+            if (self.transvar.get() > 0):
+                print( "Schedule trans " + str( self.scenesdata[ scenename]["trans"] ) )
+                self.thisscene = scenename
+                self.messagetext.set("Transition scene from " + self.thisscene)
+                self.root.after( self.transvar.get()*1000, self.dotransition )
+
+    def dotransition(self):
+        # To trans, must be in live mode
+        if (self.livestate.get() == 1):
+            # And scene must be self.thisscene
+            scenename = self.sceneslist[ self.scenelistbox.curselection()[0] ]
+            if (scenename == self.thisscene):
+                print( "Transition actioned")
+                self.messagetext.set("Transition actioned")
+                # Select the next row, if available, or the first
+                i = self.scenelistbox.curselection()[0]+1
+                if (i >= len(self.sceneslist) ):
+                    i = 0
+                print("New i", i)
+                self.scenelistbox.selection_clear(0, END )
+                self.scenelistbox.select_set( i )
+                self.scenelistbox.event_generate("<<ListboxSelect>>")
+                # Dont need to do this as it's bound
+                #sceneselection(self, self.scenelistbox.curselection()[0])
+            else:
+                self.messagetext.set("Transition cancelled")
+        else:
+            self.messagetext.set("Transition offline")
+
     def setcolour(self, i, j):
         self.messagetext.set("Choose colour " + str(i) )
         # askcolor() returns a tuple of the form
@@ -340,6 +417,8 @@ class DMXMini:
                 s = self.settings[i]["s"]
                 v = self.chanvar[i].get()
                 self.sendDMX( i, 0, h, s, v)
+            self.updatevar.set("Update *")
+
 
     def sendDMX( self, i, t, h, s, v):
         r, g, b = hsv_to_rgb( h/255.0, s/255.0, v/255.0)

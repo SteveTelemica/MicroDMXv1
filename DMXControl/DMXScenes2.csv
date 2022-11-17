@@ -1,0 +1,26 @@
+# Comment: List of scene names and timing, then channel settings H,S,V
+Scene,"off",0",,0
+Set,"Chan 1-1",0,0,0
+Set,"Chan 2-5",168,249,0
+Set,"Chan 4-9",0,0,0
+Set,"Chan 5-13",0,0,0
+Scene,"r",106",,10
+Set,"Chan 1-1",0,0,0
+Set,"Chan 2-5",0,255,255
+Set,"Chan 4-9",0,0,0
+Set,"Chan 5-13",0,0,0
+Scene,"b",106",,10
+Set,"Chan 1-1",0,0,0
+Set,"Chan 2-5",168,249,250
+Set,"Chan 4-9",0,0,0
+Set,"Chan 5-13",0,0,0
+Scene,"yellow/green",62",,0
+Set,"Chan 1-1",42,19,167
+Set,"Chan 2-5",52,167,190
+Set,"Chan 4-9",76,166,238
+Set,"Chan 5-13",213,60,182
+Scene,"fast purple",28",,0
+Set,"Chan 1-1",0,0,0
+Set,"Chan 2-5",221,184,200
+Set,"Chan 4-9",0,0,0
+Set,"Chan 5-13",0,0,0

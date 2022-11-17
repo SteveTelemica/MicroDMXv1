@@ -2,17 +2,17 @@
 import os.path
 
 #e.g.
-## Comment: List of scene names and timing, then channel settings H,S,V
-#Scene,"Scene 1",10
+## Comment: List of scene names and timing and transition, then channel settings H,S,V
+#Scene,"Scene 1",10,0
 #Set,"Chan,1",100,200,50
 #Set,"Chan 2",200,150,30
-#Scene,"Scene 2 All Red",20
+#Scene,"Scene 2 All Red",20,100
 #Set,"Chan,1",255,0,0
 #Set,"Chan 2",255,0,0
 
 #Data structure:
 #{1: 
-#	{'name': 'Scene 1', 'time': '10', 
+#	{'name': 'Scene 1', 'time': '10', 'trans': '100',
 #	 'sets': {'Chan,1': {'h': '100', 's': '200', 'v': '50'}, 
 #	          'Chan 2': {'h': '200', 's': '150', 'v': '30'}
 #		 }
@@ -53,7 +53,7 @@ def ReadDMXScenes(filename):
                 scenenum += 1
                 # Create scene and add empty list of channel settings
                 # sets is a List of Dictionaries
-                data[scenenum] =  {"name": params[1], "time": params[2], "sets": []}
+                data[scenenum] =  {"name": params[1], "time": params[2], "trans": params[3], "sets": []}
                 setting = {}
                 first = True
             else:
@@ -73,7 +73,7 @@ def WriteDMXScenes(filename, scenes):
     f = open(filename, "w")
     f.write("# Comment: List of scene names and timing, then channel settings H,S,V\n")
     for scene in scenes.values():
-        f.write("Scene,\"" + str(scene["name"]) + "\"," + str(scene["time"]) + "\n")
+        f.write("Scene,\"" + str(scene["name"]) + "\"," + str(scene["time"]) + "," + str(scene["trans"]) + "\n")
         for settingkey in scene["sets"].keys():
             f.write("Set,\"" + str(settingkey) + "\"," +
                     str(scene["sets"][settingkey]["h"]) + "," +
@@ -82,11 +82,11 @@ def WriteDMXScenes(filename, scenes):
     f.close()
 
 if __name__ == "__main__":
-    filename = 'C:\\Users\\sesa170272\\Documents\\Dev\\Python\\Utils\\DMXScenes.csv'
+    filename = 'C:\\Users\\famil\\OneDrive\\Documents\\PlatformIO\\Projects\\MicroDMXv1\\DMXControl\\DMXScenes.csv'
     scenes = ReadDMXScenes(filename)
     print( scenes)
 
-    filename = 'C:\\Users\\sesa170272\\Documents\\Dev\\Python\\Utils\\DMXScenes2.csv'
+    filename = 'C:\\Users\\famil\\OneDrive\\Documents\\PlatformIO\\Projects\\MicroDMXv1\\DMXControl\\DMXScenes2.csv'
     WriteDMXScenes(filename, scenes)
     with open(filename) as f:
             content = f.read()

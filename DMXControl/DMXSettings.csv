@@ -1,7 +1,7 @@
 # first line is com port name, baud rate
-"COM7",115200
+"COM6",115200
 # other lines are channel name, then DMX numbers for r,g,b,w (w optional)
-"Chan 1-1",1,2,3,4
-"Chan 2-5",6,7,8,5
-"Chan 4-9",9,10,11,12
-"Chan 5-13",13,14,15,16
+"Chan 1-1",1,2,3
+"Chan 2-7",7,8,9
+"Chan 3-13",13,14,15
+"Chan 4-19",19,20,21
