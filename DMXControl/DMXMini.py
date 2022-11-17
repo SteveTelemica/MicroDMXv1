@@ -35,6 +35,15 @@ class DMXMini:
         self.check.grid(column=3, row=1, sticky=W)
         self.livestate.set(0)
 
+        self.portsvar = StringVar()
+        import serial.tools.list_ports
+        print([comport.device for comport in serial.tools.list_ports.comports()])
+        portlist = []
+        for comport in serial.tools.list_ports.comports():
+            portlist.append( comport.device)
+        self.portscombo = ttk.Combobox(mainframe, textvariable=self.portsvar, values=portlist, width=6).grid(column=4, row=1, sticky=W)
+        self.portsvar.set( self.settings["port"]["name"] )
+
         ttk.Label(mainframe, text="Scene").grid(column=1, row=2, sticky=W)
 
         self.scenes = ReadDMXScenes(scenesfilename)
@@ -48,7 +57,7 @@ class DMXMini:
             i += 1
         print (self.scenesdata)
         self.scenesvar = StringVar(value=self.sceneslist)
-        self.scenelistbox = Listbox(mainframe, selectmode=SINGLE, height=10, listvariable=self.scenesvar)
+        self.scenelistbox = Listbox(mainframe, selectmode=SINGLE, height=15, listvariable=self.scenesvar)
         self.scenelistbox.grid(column=1, row=3, rowspan=4, sticky=W)
         self.scenelistbox.bind("<<ListboxSelect>>",
                                lambda e: self.sceneselection(self.scenelistbox.curselection()))
@@ -84,7 +93,7 @@ class DMXMini:
         self.speedtext.set("2.0 sec")
 
         self.speedvar = IntVar() #or DoubleVar
-        self.speedscale = ttk.Scale(mainframe, orient=VERTICAL, from_=250, to=0, length=110,
+        self.speedscale = ttk.Scale(mainframe, orient=VERTICAL, from_=250, to=0, length=200,
                                     variable=self.speedvar, command=self.updatespeed)
         self.speedscale.grid(column=3, row=3, rowspan=3)
         self.speedvar.set(20)
@@ -97,7 +106,7 @@ class DMXMini:
         self.transtext.set("None")
 
         self.transvar = IntVar() #or DoubleVar
-        self.transscale = ttk.Scale(mainframe, orient=VERTICAL, from_=250, to=0, length=110,
+        self.transscale = ttk.Scale(mainframe, orient=VERTICAL, from_=250, to=0, length=200,
                                     variable=self.transvar, command=self.updatetrans)
         self.transscale.grid(column=4, row=3, rowspan=3)
         self.transvar.set(0)
@@ -120,7 +129,7 @@ class DMXMini:
 
                 self.chanvar[i] = IntVar()
                 
-                self.chanscale[i] = ttk.Scale(mainframe, orient=VERTICAL, from_=255, to=0, length=110,
+                self.chanscale[i] = ttk.Scale(mainframe, orient=VERTICAL, from_=255, to=0, length=200,
                                               variable=self.chanvar[i], command = partial( self.updatechan, i) )
                 self.chanscale[i].grid(column=4+i, row=3, rowspan=3)
                 self.chanvar[i].set(0)
@@ -149,8 +158,8 @@ class DMXMini:
             self.messagetext.set("Change state to not live" )
         else:
             if (self.systemonline == False):
-                # Start comms
-                self.openSerial( settings["port"]["name"], settings["port"]["speed"] )
+                # Start comms, switch port from self.settings["port"]["name"]
+                self.openSerial( self.portsvar.get(), self.settings["port"]["speed"] )
                 self.messagetext.set("Go live, port open" )
             else:
                 self.messagetext.set("Change state to live" )
@@ -440,7 +449,8 @@ class DMXMini:
             self.serialDMX = serial.Serial(name, speed, timeout=0.5)
             self.systemonline = True
         except Exception as e:
-            print("Serial error: " + e)
+            print("Serial error")
+            self.messagetext.set("Serial error")
             self.systemonline = False
 
     def sendDMXvalue( self, chan, timer, val):
