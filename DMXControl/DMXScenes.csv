@@ -1,16 +1,51 @@
 # Comment: List of scene names and timing, then channel settings H,S,V
-Scene,"off",20,5
-Set,"Chan 1-1",0,0,0
-Set,"Chan 2-7",0,0,0
-Set,"Chan 3-13",0,0,0
-Set,"Chan 4-19",0,0,0
-Scene,"red",20,5
-Set,"Chan 1-1",0,255,255
-Set,"Chan 2-7",0,255,255
-Set,"Chan 3-13",0,255,255
-Set,"Chan 4-19",0,255,255
-Scene,"green",20,5
-Set,"Chan 1-1",85,255,255
-Set,"Chan 2-7",85,255,255
-Set,"Chan 3-13",85,255,255
-Set,"Chan 4-19",85,255,255
+Scene,"Full White",20,0
+Set,"Ch1-ST5-1",0,0,255
+Set,"Ch2-ST6-7",0,0,255
+Set,"Ch3-ST7-13",0,0,255
+Set,"Ch4-ST8-19",0,0,255
+Scene,"Mid White",52,0
+Set,"Ch1-ST5-1",0,0,115
+Set,"Ch2-ST6-7",0,0,117
+Set,"Ch3-ST7-13",0,0,116
+Set,"Ch4-ST8-19",0,0,117
+Scene,"Morning",49,0
+Set,"Ch1-ST5-1",42,127,255
+Set,"Ch2-ST6-7",42,127,255
+Set,"Ch3-ST7-13",42,127,255
+Set,"Ch4-ST8-19",42,127,255
+Scene,"Pale Blue",49,0
+Set,"Ch1-ST5-1",127,127,196
+Set,"Ch2-ST6-7",127,127,193
+Set,"Ch3-ST7-13",127,127,190
+Set,"Ch4-ST8-19",127,127,186
+Scene,"greeny",103,0
+Set,"Ch1-ST5-1",0,0,0
+Set,"Ch2-ST6-7",107,120,102
+Set,"Ch3-ST7-13",0,0,0
+Set,"Ch4-ST8-19",0,0,0
+Scene,"Pale Green",20,0
+Set,"Ch1-ST5-1",85,127,208
+Set,"Ch2-ST6-7",85,127,204
+Set,"Ch3-ST7-13",85,127,207
+Set,"Ch4-ST8-19",85,127,205
+Scene,"Dark Green",20,0
+Set,"Ch1-ST5-1",85,127,116
+Set,"Ch2-ST6-7",85,127,113
+Set,"Ch3-ST7-13",85,127,119
+Set,"Ch4-ST8-19",85,127,115
+Scene,"Grey",20,0
+Set,"Ch1-ST5-1",0,0,74
+Set,"Ch2-ST6-7",0,0,69
+Set,"Ch3-ST7-13",0,0,69
+Set,"Ch4-ST8-19",0,0,69
+Scene,"OFF",20,0
+Set,"Ch1-ST5-1",0,0,0
+Set,"Ch2-ST6-7",0,0,0
+Set,"Ch3-ST7-13",0,0,0
+Set,"Ch4-ST8-19",0,0,0
+Scene,"p",20,0
+Set,"Ch1-ST5-1",212,72,53
+Set,"Ch2-ST6-7",212,72,47
+Set,"Ch3-ST7-13",212,72,53
+Set,"Ch4-ST8-19",212,72,95
