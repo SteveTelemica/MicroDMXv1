@@ -35,6 +35,11 @@ class DMXMini:
         self.check.grid(column=3, row=1, sticky=W)
         self.livestate.set(0)
 
+        self.allstate = IntVar(0)
+        self.allcheck = ttk.Checkbutton(mainframe, text="All", onvalue=1, offvalue=0, variable=self.allstate, command=self.allstate)
+        self.allcheck.grid(column=5, row=1, sticky=W)
+        self.allstate.set(0)
+
         self.portsvar = StringVar()
         import serial.tools.list_ports
         print([comport.device for comport in serial.tools.list_ports.comports()])
@@ -61,6 +66,14 @@ class DMXMini:
         self.scenelistbox.grid(column=1, row=3, rowspan=4, sticky=W)
         self.scenelistbox.bind("<<ListboxSelect>>",
                                lambda e: self.sceneselection(self.scenelistbox.curselection()))
+
+        # add scroll
+        self.scenescroll = ttk.Scrollbar(mainframe, orient=VERTICAL, command=self.scenelistbox.yview )
+        #self.scenescroll.pack(side=RIGHT, fill=Y)
+        # Link scrollbar to listbox
+        self.scenescroll.grid(column=1, row=3, rowspan=4, sticky=E)
+        self.scenelistbox.config(yscrollcommand=self.scenescroll.set)
+
 
         self.scene = StringVar()
         self.scene_entry = ttk.Entry(mainframe, width=20, textvariable=self.scene)
@@ -201,6 +214,16 @@ class DMXMini:
             v = self.chanvar[i].get()
             self.sendDMX( i, 0, h, s, v)
         self.updatevar.set("Update *")
+        if (self.allstate.get() != 0):
+            #print("set all levels")
+            vv = self.chanvar[i].get()
+            for i in self.settings.keys():
+                if (isinstance(i,int)):
+                    self.chanvar[i].set(vv)
+                    #self.messagetext.set("Change chan brightness "+ str(i) + "," + str(self.chanvar[i].get()) )
+                    self.chantext[i].set(str(int(self.chanvar[i].get()*100/255)) + " %")
+                    if (self.livestate.get() == 1):
+                        self.sendDMX( i, 0, h, s, vv)
             
     def save(self):
         # Reorganise by scene id
@@ -421,12 +444,24 @@ class DMXMini:
             self.settings[i]["v"] = int(v*255)
             print( self.settings[i])
             # if Live set this colour now
+            h = self.settings[i]["h"]
+            s = self.settings[i]["s"]
+            v = self.chanvar[i].get()
             if (self.livestate.get() == 1):
-                h = self.settings[i]["h"]
-                s = self.settings[i]["s"]
-                v = self.chanvar[i].get()
                 self.sendDMX( i, 0, h, s, v)
             self.updatevar.set("Update *")
+            if (self.allstate.get() != 0):
+                print("set all colours")
+                for i in self.settings.keys():
+                    if (isinstance(i,int)):
+                        self.chanvar[i].set(v) #ERROR, should be v, not v*256
+                        self.chantext[i].set(str(int(self.chanvar[i].get()*100/255)) + " %")
+                        self.colourpicker[i].create_rectangle( 0, 0, 30, 30, fill=hexcolour)
+                        self.settings[i]["h"] = int(h*255)
+                        self.settings[i]["s"] = int(s*255)
+                        self.settings[i]["v"] = int(v*255)
+                        if (self.livestate.get() == 1):
+                            self.sendDMX( i, 0, h, s, v)
 
 
     def sendDMX( self, i, t, h, s, v):

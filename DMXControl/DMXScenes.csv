@@ -1,51 +1,95 @@
 # Comment: List of scene names and timing, then channel settings H,S,V
-Scene,"Full White",20,0
-Set,"Ch1-ST5-1",0,0,255
-Set,"Ch2-ST6-7",0,0,255
-Set,"Ch3-ST7-13",0,0,255
-Set,"Ch4-ST8-19",0,0,255
-Scene,"Mid White",52,0
+Scene,"Stainers 2025",52,0
 Set,"Ch1-ST5-1",0,0,115
 Set,"Ch2-ST6-7",0,0,117
 Set,"Ch3-ST7-13",0,0,116
 Set,"Ch4-ST8-19",0,0,117
-Scene,"Morning",49,0
-Set,"Ch1-ST5-1",42,127,255
-Set,"Ch2-ST6-7",42,127,255
-Set,"Ch3-ST7-13",42,127,255
-Set,"Ch4-ST8-19",42,127,255
-Scene,"Pale Blue",49,0
-Set,"Ch1-ST5-1",127,127,196
-Set,"Ch2-ST6-7",127,127,193
-Set,"Ch3-ST7-13",127,127,190
-Set,"Ch4-ST8-19",127,127,186
-Scene,"greeny",103,0
-Set,"Ch1-ST5-1",0,0,0
-Set,"Ch2-ST6-7",107,120,102
-Set,"Ch3-ST7-13",0,0,0
-Set,"Ch4-ST8-19",0,0,0
-Scene,"Pale Green",20,0
-Set,"Ch1-ST5-1",85,127,208
-Set,"Ch2-ST6-7",85,127,204
-Set,"Ch3-ST7-13",85,127,207
-Set,"Ch4-ST8-19",85,127,205
-Scene,"Dark Green",20,0
-Set,"Ch1-ST5-1",85,127,116
-Set,"Ch2-ST6-7",85,127,113
-Set,"Ch3-ST7-13",85,127,119
-Set,"Ch4-ST8-19",85,127,115
-Scene,"Grey",20,0
-Set,"Ch1-ST5-1",0,0,74
-Set,"Ch2-ST6-7",0,0,69
-Set,"Ch3-ST7-13",0,0,69
-Set,"Ch4-ST8-19",0,0,69
+Set,"Extra",0,0,0
 Scene,"OFF",20,0
 Set,"Ch1-ST5-1",0,0,0
 Set,"Ch2-ST6-7",0,0,0
 Set,"Ch3-ST7-13",0,0,0
 Set,"Ch4-ST8-19",0,0,0
-Scene,"p",20,0
-Set,"Ch1-ST5-1",212,72,53
-Set,"Ch2-ST6-7",212,72,47
-Set,"Ch3-ST7-13",212,72,53
-Set,"Ch4-ST8-19",212,72,95
+Set,"Extra",0,0,0
+Scene,"Dark Green",41,0
+Set,"Ch1-ST5-1",85,127,116
+Set,"Ch2-ST6-7",85,127,113
+Set,"Ch3-ST7-13",85,127,119
+Set,"Ch4-ST8-19",85,127,115
+Set,"Extra",0,0,0
+Scene,"Pale Green",40,0
+Set,"Ch1-ST5-1",85,127,174
+Set,"Ch2-ST6-7",85,127,179
+Set,"Ch3-ST7-13",85,127,178
+Set,"Ch4-ST8-19",85,127,172
+Set,"Extra",0,0,0
+Scene,"Centre Green",41,0
+Set,"Ch1-ST5-1",85,127,80
+Set,"Ch2-ST6-7",85,127,204
+Set,"Ch3-ST7-13",85,127,207
+Set,"Ch4-ST8-19",85,127,75
+Set,"Extra",0,0,0
+Scene,"Pale Green 2",44,0
+Set,"Ch1-ST5-1",85,127,174
+Set,"Ch2-ST6-7",85,127,179
+Set,"Ch3-ST7-13",85,127,178
+Set,"Ch4-ST8-19",85,127,172
+Set,"Extra",0,0,0
+Scene,"Pale Blue",49,0
+Set,"Ch1-ST5-1",127,127,196
+Set,"Ch2-ST6-7",127,127,193
+Set,"Ch3-ST7-13",127,127,190
+Set,"Ch4-ST8-19",127,127,186
+Scene,"Pink",49,0
+Set,"Ch1-ST5-1",218,183,150
+Set,"Ch2-ST6-7",218,183,150
+Set,"Ch3-ST7-13",218,183,150
+Set,"Ch4-ST8-19",218,183,150
+Set,"Extra",218,183,0
+Scene,"Red",49,0
+Set,"Ch1-ST5-1",227,104,202
+Set,"Ch2-ST6-7",227,104,202
+Set,"Ch3-ST7-13",227,104,202
+Set,"Ch4-ST8-19",227,104,202
+Set,"Extra",239,149,0
+Scene,"Morning",49,0
+Set,"Ch1-ST5-1",42,127,226
+Set,"Ch2-ST6-7",42,127,248
+Set,"Ch3-ST7-13",42,127,252
+Set,"Ch4-ST8-19",42,127,226
+Set,"Extra",0,0,0
+Scene,"Pale Green 3",43,0
+Set,"Ch1-ST5-1",85,127,174
+Set,"Ch2-ST6-7",85,127,209
+Set,"Ch3-ST7-13",85,127,205
+Set,"Ch4-ST8-19",85,127,172
+Set,"Extra",0,0,0
+Scene,"Grey",38,0
+Set,"Ch1-ST5-1",0,0,164
+Set,"Ch2-ST6-7",0,0,197
+Set,"Ch3-ST7-13",0,0,196
+Set,"Ch4-ST8-19",0,0,160
+Set,"Extra",0,0,0
+Scene,"Purple",40,0
+Set,"Ch1-ST5-1",214,129,215
+Set,"Ch2-ST6-7",214,129,215
+Set,"Ch3-ST7-13",214,129,215
+Set,"Ch4-ST8-19",214,129,215
+Set,"Extra",214,129,0
+Scene,"OFF2",0,0
+Set,"Ch1-ST5-1",0,0,0
+Set,"Ch2-ST6-7",0,0,0
+Set,"Ch3-ST7-13",0,0,0
+Set,"Ch4-ST8-19",0,0,0
+Set,"Extra",0,0,0
+Scene,"Mid White",52,0
+Set,"Ch1-ST5-1",0,0,115
+Set,"Ch2-ST6-7",0,0,117
+Set,"Ch3-ST7-13",0,0,116
+Set,"Ch4-ST8-19",0,0,117
+Scene,"Full White",20,0
+Set,"Ch1-ST5-1",0,0,255
+Set,"Ch2-ST6-7",0,0,255
+Set,"Ch3-ST7-13",0,0,255
+Set,"Ch4-ST8-19",0,0,255
+Set,"Extra",0,0,255
